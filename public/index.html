@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DevDesk</title>
+
+    <style>
+      :root {
+        --bg: #f6f7fb;
+        --panel: #ffffff;
+        --text: #0f172a;
+        --muted: #64748b;
+        --border: #e2e8f0;
+
+        --primary: #2563eb;
+        --primary-hover: #1d4ed8;
+
+        --shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+
+        --radius: 14px;
+        --radius-sm: 10px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          Arial,
+          "Apple Color Emoji",
+          "Segoe UI Emoji";
+        line-height: 1.45;
+      }
+
+      /* Layout */
+      .wrap {
+        max-width: 1100px;
+        margin: 32px auto;
+        padding: 0 16px 40px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 18px 18px;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .logo {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        background: radial-gradient(circle at 30% 30%, #93c5fd, #2563eb);
+        box-shadow: 0 10px 20px rgba(37, 99, 235, 0.25);
+        flex: 0 0 auto;
+      }
+
+      h1 {
+        font-size: 18px;
+        margin: 0;
+        letter-spacing: 0.2px;
+      }
+
+      .subtitle {
+        margin: 2px 0 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .meta {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--muted);
+        font-size: 13px;
+        white-space: nowrap;
+      }
+
+      .chip {
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: #f8fafc;
+      }
+
+s      .tabs {
+        display: flex;
+        gap: 10px;
+        margin: 16px 0;
+        flex-wrap: wrap;
+      }
+
+      .tab {
+        padding: 10px 12px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.8);
+        color: var(--muted);
+        font-weight: 600;
+        font-size: 13px;
+        transition:
+          transform 0.06s ease,
+          background 0.2s ease,
+          border-color 0.2s ease,
+          color 0.2s ease;
+        user-select: none;
+      }
+
+      .tab:hover {
+        transform: translateY(-1px);
+        border-color: #cbd5e1;
+        color: #334155;
+      }
+
+      .tab.active {
+        background: #eaf2ff;
+        border-color: #b7d0ff;
+        color: #1e3a8a;
+      }
+
+      #view {
+        background: transparent;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 16px;
+      }
+
+      @media (max-width: 900px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 16px;
+        box-shadow: var(--shadow);
+      }
+
+      .card h2 {
+        margin: 0 0 6px;
+        font-size: 16px;
+        letter-spacing: 0.2px;
+      }
+
+      .row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .muted {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      /* Forms */
+      label {
+        display: block;
+        margin: 10px 0 6px;
+        font-size: 12px;
+        color: #334155;
+        font-weight: 700;
+      }
+
+      input,
+      textarea,
+      select {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 10px 12px;
+        font-size: 14px;
+        background: #fff;
+        outline: none;
+        transition:
+          border-color 0.15s ease,
+          box-shadow 0.15s ease;
+      }
+
+      input:focus,
+      textarea:focus,
+      select:focus {
+        border-color: rgba(37, 99, 235, 0.55);
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+      }
+
+      textarea {
+        min-height: 96px;
+        resize: vertical;
+      }
+
+      button {
+        border: 1px solid transparent;
+        border-radius: 999px;
+        padding: 10px 14px;
+        font-weight: 700;
+        font-size: 13px;
+        cursor: pointer;
+        transition:
+          transform 0.06s ease,
+          background 0.2s ease,
+          border-color 0.2s ease,
+          color 0.2s ease;
+      }
+
+      button:active {
+        transform: translateY(1px);
+      }
+
+      button.primary {
+        background: var(--primary);
+        color: #fff;
+      }
+
+      button.primary:hover {
+        background: var(--primary-hover);
+      }
+
+      .pill {
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 800;
+        border: 1px solid var(--border);
+        background: #f8fafc;
+        color: #334155;
+      }
+
+      .pill-open {
+        background: #eff6ff;
+        border-color: #bfdbfe;
+        color: #1e3a8a;
+      }
+      .pill-in-progress {
+        background: #fff7ed;
+        border-color: #fed7aa;
+        color: #9a3412;
+      }
+      .pill-closed {
+        background: #f0fdf4;
+        border-color: #bbf7d0;
+        color: #166534;
+      }
+
+      #t_list .card,
+      #k_list .card,
+      #a_list .card {
+        box-shadow: none;
+        background: #fbfdff;
+      }
+
+      br {
+        line-height: 1.2;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="wrap">
+      <div class="topbar">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <div>
+            <h1>DevDesk</h1>
+            <p class="subtitle">
+              Tickets • Knowledge Base • Assets — lightweight IT operations tool
+            </p>
+          </div>
+        </div>
+        <div class="meta">
+          <span class="chip">Localhost</span>
+          <span class="chip">SQLite</span>
+          <span class="chip">Express</span>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <div class="tab active" data-view="tickets">Tickets</div>
+        <div class="tab" data-view="kb">Knowledge Base</div>
+        <div class="tab" data-view="assets">Assets</div>
+      </div>
+
+      <div id="view"></div>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

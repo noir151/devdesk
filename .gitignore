@@ -1,0 +1,12 @@
+node_modules/
+npm-debug.log*
+.DS_Store
+
+# local database + temp files
+devdesk.db
+*.sqlite
+*.sqlite3
+
+# env files s
+.env
+.env.local
