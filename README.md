@@ -27,3 +27,19 @@ DevDesk is an internal IT operations tool for managing **support tickets**, a **
 ### 1) Install dependencies
 ```bash
 npm install
+
+## Screenshots
+
+### Tickets & Filters
+![Tickets](screenshots/Tickets.png)
+
+### Knowledge Base
+![Knowledge Base](screenshots/KB.png)
+
+### Assets
+![Assets](screenshots/Assets.png)
+
+### CSV Export (Excel)
+![CSV](screenshots/CSV-export.png)
+
+
