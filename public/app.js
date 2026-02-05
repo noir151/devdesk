@@ -15,9 +15,6 @@ function el(html) {
   return div.firstChild;
 }
 
-// Robust API helper:
-// - Handles JSON + text
-// - Shows real backend error message (instead of JSON parse crashes)
 async function api(path, options) {
   const res = await fetch(path, options);
   const contentType = res.headers.get("content-type") || "";
@@ -60,7 +57,11 @@ async function downloadCsv(url, filename) {
 
 // ---------------- Tickets ----------------
 async function renderTickets() {
-  const searchState = window.__ticketsSearch || { q: "", status: "", category: "" };
+  const searchState = window.__ticketsSearch || {
+    q: "",
+    status: "",
+    category: "",
+  };
   const qs = new URLSearchParams(searchState).toString();
 
   const ticketsRaw = await api(`/api/tickets?${qs}`);
@@ -207,7 +208,10 @@ async function renderTickets() {
       <div style="margin-top:10px;">
         <select data-id="${t.id}" class="status">
           ${["Open", "In Progress", "Closed"]
-            .map((s) => `<option ${s === t.status ? "selected" : ""}>${s}</option>`)
+            .map(
+              (s) =>
+                `<option ${s === t.status ? "selected" : ""}>${s}</option>`,
+            )
             .join("")}
         </select>
       </div>
@@ -445,7 +449,13 @@ async function renderAssets() {
       await api("/api/assets", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, asset_tag, serial_number, assigned_to, notes }),
+        body: JSON.stringify({
+          name,
+          asset_tag,
+          serial_number,
+          assigned_to,
+          notes,
+        }),
       });
 
       root.querySelector("#a_name").value = "";
