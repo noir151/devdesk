@@ -1,321 +1,400 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DevDesk</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DevDesk</title>
 
-    <style>
+  <style>
+
+    :root {
+      /* colors */
+      --bg: #f6f7fb;
+      --panel: rgba(255, 255, 255, 0.85);
+      --panel-solid: #ffffff;
+      --text: #0b1220;
+      --muted: #66758a;
+      --border: rgba(15, 23, 42, 0.10);
+
+      --primary: #2563eb;
+      --primary-2: #1d4ed8;
+      --ring: rgba(37, 99, 235, 0.25);
+
+      --good: #16a34a;
+      --warn: #ea580c;
+      --info: #2563eb;
+
+      /* typography */
+      --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+      /* spacing scale */
+      --s-1: 6px;
+      --s-2: 10px;
+      --s-3: 14px;
+      --s-4: 18px;
+      --s-5: 24px;
+      --s-6: 32px;
+
+      /* radii */
+      --r-1: 10px;
+      --r-2: 14px;
+      --r-3: 18px;
+
+      /* shadows */
+      --shadow-sm: 0 1px 0 rgba(15, 23, 42, 0.06), 0 8px 24px rgba(15, 23, 42, 0.06);
+      --shadow-md: 0 1px 0 rgba(15, 23, 42, 0.06), 0 18px 40px rgba(15, 23, 42, 0.10);
+
+      /* motion */
+      --ease: cubic-bezier(.2,.8,.2,1);
+      --dur: 180ms;
+    }
+
+    @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #f6f7fb;
-        --panel: #ffffff;
-        --text: #0f172a;
-        --muted: #64748b;
-        --border: #e2e8f0;
-
-        --primary: #2563eb;
-        --primary-hover: #1d4ed8;
-
-        --shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
-
-        --radius: 14px;
-        --radius-sm: 10px;
+        --bg: #0b1220;
+        --panel: rgba(17, 24, 39, 0.70);
+        --panel-solid: #111827;
+        --text: #e5e7eb;
+        --muted: #9aa6b2;
+        --border: rgba(148, 163, 184, 0.18);
+        --ring: rgba(96, 165, 250, 0.25);
+        --shadow-sm: 0 1px 0 rgba(0,0,0,0.25), 0 14px 36px rgba(0,0,0,0.35);
+        --shadow-md: 0 1px 0 rgba(0,0,0,0.25), 0 22px 56px rgba(0,0,0,0.45);
       }
+    }
 
-      * {
-        box-sizing: border-box;
-      }
-      html,
-      body {
-        height: 100%;
-      }
-      body {
-        margin: 0;
-        background: var(--bg);
-        color: var(--text);
-        font-family:
-          ui-sans-serif,
-          system-ui,
-          -apple-system,
-          Segoe UI,
-          Roboto,
-          Arial,
-          "Apple Color Emoji",
-          "Segoe UI Emoji";
-        line-height: 1.45;
-      }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
 
-      /* Layout */
-      .wrap {
-        max-width: 1100px;
-        margin: 32px auto;
-        padding: 0 16px 40px;
-      }
+    body {
+      margin: 0;
+      font-family: var(--font);
+      color: var(--text);
+      background:
+        radial-gradient(1200px 600px at 20% -10%, rgba(37,99,235,0.12), transparent 60%),
+        radial-gradient(900px 500px at 90% 0%, rgba(234,88,12,0.10), transparent 55%),
+        var(--bg);
+      line-height: 1.45;
+      letter-spacing: 0.1px;
+    }
 
+    /* container */
+    .wrap {
+      max-width: 1120px;
+      margin: var(--s-6) auto;
+      padding: 0 var(--s-4) var(--s-6);
+    }
+
+    /* topbar */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--s-3);
+      padding: var(--s-4);
+      border-radius: var(--r-3);
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, var(--panel), rgba(255,255,255,0.45));
+      box-shadow: var(--shadow-md);
+      backdrop-filter: blur(10px);
+    }
+
+    @media (prefers-color-scheme: dark) {
       .topbar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        padding: 18px 18px;
-        background: var(--panel);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        box-shadow: var(--shadow);
+        background: linear-gradient(180deg, rgba(17,24,39,0.85), rgba(17,24,39,0.55));
       }
+    }
 
-      .brand {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: var(--s-3);
+      min-width: 0;
+    }
 
-      .logo {
-        width: 40px;
-        height: 40px;
-        border-radius: 12px;
-        background: radial-gradient(circle at 30% 30%, #93c5fd, #2563eb);
-        box-shadow: 0 10px 20px rgba(37, 99, 235, 0.25);
-        flex: 0 0 auto;
-      }
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(147,197,253,1), rgba(37,99,235,1) 60%),
+        linear-gradient(135deg, rgba(255,255,255,0.10), rgba(0,0,0,0.10));
+      box-shadow: 0 16px 28px rgba(37, 99, 235, 0.28);
+      flex: 0 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
 
-      h1 {
-        font-size: 18px;
-        margin: 0;
-        letter-spacing: 0.2px;
-      }
+    .logo::after {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.35), transparent 70%);
+      transform: rotate(20deg);
+      animation: shine 6s var(--ease) infinite;
+    }
 
-      .subtitle {
-        margin: 2px 0 0;
-        color: var(--muted);
-        font-size: 13px;
-      }
+    @keyframes shine {
+      0% { transform: translateX(-60%) rotate(20deg); opacity: 0; }
+      15% { opacity: 1; }
+      35% { transform: translateX(60%) rotate(20deg); opacity: 0; }
+      100% { opacity: 0; }
+    }
 
-      .meta {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        color: var(--muted);
-        font-size: 13px;
-        white-space: nowrap;
-      }
+    h1 {
+      font-size: 18px;
+      margin: 0;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
 
-      .chip {
-        padding: 6px 10px;
-        border-radius: 999px;
-        border: 1px solid var(--border);
-        background: #f8fafc;
-      }
+    .subtitle {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 560px;
+    }
 
-s      .tabs {
-        display: flex;
-        gap: 10px;
-        margin: 16px 0;
-        flex-wrap: wrap;
-      }
+    .meta {
+      display: flex;
+      gap: var(--s-2);
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      text-align: right;
+    }
 
-      .tab {
-        padding: 10px 12px;
-        border: 1px solid var(--border);
-        border-radius: 999px;
-        cursor: pointer;
-        background: rgba(255, 255, 255, 0.8);
-        color: var(--muted);
-        font-weight: 600;
-        font-size: 13px;
-        transition:
-          transform 0.06s ease,
-          background 0.2s ease,
-          border-color 0.2s ease,
-          color 0.2s ease;
-        user-select: none;
-      }
+    .chip {
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(248,250,252,0.65);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
 
-      .tab:hover {
-        transform: translateY(-1px);
-        border-color: #cbd5e1;
-        color: #334155;
-      }
+    @media (prefers-color-scheme: dark) {
+      .chip { background: rgba(15,23,42,0.35); }
+    }
 
-      .tab.active {
-        background: #eaf2ff;
-        border-color: #b7d0ff;
-        color: #1e3a8a;
-      }
+    /* tabs */
+    .tabs {
+      display: flex;
+      gap: var(--s-2);
+      margin: var(--s-4) 0;
+      flex-wrap: wrap;
+    }
 
-      #view {
-        background: transparent;
-      }
+    .tab {
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      cursor: pointer;
+      background: rgba(255,255,255,0.60);
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 13px;
+      transition: transform var(--dur) var(--ease), background var(--dur) var(--ease), border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+      user-select: none;
+    }
 
-      .grid {
-        display: grid;
-        grid-template-columns: 1fr 1.2fr;
-        gap: 16px;
-      }
+    .tab:hover {
+      transform: translateY(-1px);
+      border-color: rgba(37,99,235,0.28);
+      color: #334155;
+      background: rgba(255,255,255,0.78);
+    }
 
-      @media (max-width: 900px) {
-        .grid {
-          grid-template-columns: 1fr;
-        }
-      }
+    .tab.active {
+      background: rgba(37,99,235,0.12);
+      border-color: rgba(37,99,235,0.35);
+      color: var(--text);
+    }
 
-      .card {
-        background: var(--panel);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        padding: 16px;
-        box-shadow: var(--shadow);
-      }
+    @media (prefers-color-scheme: dark) {
+      .tab { background: rgba(17,24,39,0.55); }
+      .tab:hover { background: rgba(17,24,39,0.70); color: var(--text); }
+      .tab.active { background: rgba(96,165,250,0.12); border-color: rgba(96,165,250,0.35); }
+    }
 
-      .card h2 {
-        margin: 0 0 6px;
-        font-size: 16px;
-        letter-spacing: 0.2px;
-      }
+    /* grid/cards used by app.js */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1.25fr;
+      gap: var(--s-4);
+    }
+    @media (max-width: 950px) {
+      .grid { grid-template-columns: 1fr; }
+    }
 
-      .row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        flex-wrap: wrap;
-      }
+    .card {
+      border-radius: var(--r-3);
+      border: 1px solid var(--border);
+      background: var(--panel-solid);
+      box-shadow: var(--shadow-sm);
+      padding: var(--s-4);
+      transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+    }
 
-      .muted {
-        color: var(--muted);
-        font-size: 13px;
-      }
+    .card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
 
-      /* Forms */
-      label {
-        display: block;
-        margin: 10px 0 6px;
-        font-size: 12px;
-        color: #334155;
-        font-weight: 700;
-      }
+    @media (prefers-color-scheme: dark) {
+      .card { background: rgba(17,24,39,0.80); backdrop-filter: blur(10px); }
+    }
 
-      input,
-      textarea,
-      select {
-        width: 100%;
-        border: 1px solid var(--border);
-        border-radius: var(--radius-sm);
-        padding: 10px 12px;
-        font-size: 14px;
-        background: #fff;
-        outline: none;
-        transition:
-          border-color 0.15s ease,
-          box-shadow 0.15s ease;
-      }
+    .card h2 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 0.2px;
+    }
 
-      input:focus,
-      textarea:focus,
-      select:focus {
-        border-color: rgba(37, 99, 235, 0.55);
-        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
-      }
+    .muted { color: var(--muted); font-size: 13px; }
 
-      textarea {
-        min-height: 96px;
-        resize: vertical;
-      }
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--s-2);
+      flex-wrap: wrap;
+    }
 
-      button {
-        border: 1px solid transparent;
-        border-radius: 999px;
-        padding: 10px 14px;
-        font-weight: 700;
-        font-size: 13px;
-        cursor: pointer;
-        transition:
-          transform 0.06s ease,
-          background 0.2s ease,
-          border-color 0.2s ease,
-          color 0.2s ease;
-      }
+    /* forms */
+    label {
+      display: block;
+      margin: 10px 0 6px;
+      font-size: 12px;
+      color: rgba(51,65,85,0.95);
+      font-weight: 900;
+      letter-spacing: 0.25px;
+      text-transform: uppercase;
+    }
+    @media (prefers-color-scheme: dark) {
+      label { color: rgba(226,232,240,0.9); }
+    }
 
-      button:active {
-        transform: translateY(1px);
-      }
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: var(--r-2);
+      padding: 11px 12px;
+      font-size: 14px;
+      background: rgba(255,255,255,0.90);
+      color: var(--text);
+      outline: none;
+      transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease), background var(--dur) var(--ease);
+    }
 
-      button.primary {
-        background: var(--primary);
-        color: #fff;
-      }
+    @media (prefers-color-scheme: dark) {
+      input, textarea, select { background: rgba(15,23,42,0.40); }
+    }
 
-      button.primary:hover {
-        background: var(--primary-hover);
-      }
+    input:focus, textarea:focus, select:focus {
+      border-color: rgba(37, 99, 235, 0.6);
+      box-shadow: 0 0 0 4px var(--ring);
+    }
 
-      .pill {
-        padding: 6px 10px;
-        border-radius: 999px;
-        font-size: 12px;
-        font-weight: 800;
-        border: 1px solid var(--border);
-        background: #f8fafc;
-        color: #334155;
-      }
+    textarea { min-height: 100px; resize: vertical; }
 
-      .pill-open {
-        background: #eff6ff;
-        border-color: #bfdbfe;
-        color: #1e3a8a;
-      }
-      .pill-in-progress {
-        background: #fff7ed;
-        border-color: #fed7aa;
-        color: #9a3412;
-      }
-      .pill-closed {
-        background: #f0fdf4;
-        border-color: #bbf7d0;
-        color: #166534;
-      }
+    /* buttons */
+    button {
+      border: 1px solid transparent;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 900;
+      font-size: 13px;
+      cursor: pointer;
+      transition: transform var(--dur) var(--ease), background var(--dur) var(--ease), border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+      user-select: none;
+    }
 
-      #t_list .card,
-      #k_list .card,
-      #a_list .card {
-        box-shadow: none;
-        background: #fbfdff;
-      }
+    button:active { transform: translateY(1px); }
 
-      br {
-        line-height: 1.2;
-      }
-    </style>
-  </head>
+    button.primary {
+      background: linear-gradient(180deg, var(--primary), var(--primary-2));
+      color: #fff;
+      box-shadow: 0 10px 20px rgba(37,99,235,0.18);
+    }
 
-  <body>
-    <div class="wrap">
-      <div class="topbar">
-        <div class="brand">
-          <div class="logo" aria-hidden="true"></div>
-          <div>
-            <h1>DevDesk</h1>
-            <p class="subtitle">
-              Tickets • Knowledge Base • Assets — lightweight IT operations tool
-            </p>
-          </div>
-        </div>
-        <div class="meta">
-          <span class="chip">Localhost</span>
-          <span class="chip">SQLite</span>
-          <span class="chip">Express</span>
+    button.primary:hover {
+      box-shadow: 0 14px 26px rgba(37,99,235,0.26);
+      transform: translateY(-1px);
+    }
+
+    button.primary:focus-visible,
+    .tab:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible,
+    select:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 4px var(--ring);
+    }
+
+    /* list cards inside list containers */
+    #t_list .card, #k_list .card, #a_list .card {
+      box-shadow: none;
+      background: rgba(248,250,252,0.70);
+      border-radius: var(--r-2);
+      padding: var(--s-3);
+      transform: none !important;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      #t_list .card, #k_list .card, #a_list .card { background: rgba(15,23,42,0.30); }
+    }
+
+    /* status pill */
+    .pill {
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+      border: 1px solid var(--border);
+      background: rgba(248,250,252,0.70);
+      color: rgba(51,65,85,0.95);
+    }
+
+    
+    @media (prefers-color-scheme: dark) {
+      .pill { background: rgba(15,23,42,0.35); color: rgba(226,232,240,0.9); }
+    }
+
+    /* Small responsive polish */
+    @media (max-width: 520px) {
+      .topbar { align-items: flex-start; }
+      .subtitle { white-space: normal; max-width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div style="min-width:0;">
+          <h1>DevDesk</h1>
+          <p class="subtitle">Tickets • Knowledge Base • Assets — lightweight IT operations tool</p>
         </div>
       </div>
-
-      <div class="tabs">
-        <div class="tab active" data-view="tickets">Tickets</div>
-        <div class="tab" data-view="kb">Knowledge Base</div>
-        <div class="tab" data-view="assets">Assets</div>
-      </div>
-
-      <div id="view"></div>
     </div>
 
-    <script src="/app.js"></script>
-  </body>
+    <div class="tabs">
+      <div class="tab active" data-view="tickets">Tickets</div>
+      <div class="tab" data-view="kb">Knowledge Base</div>
+      <div class="tab" data-view="assets">Assets</div>
+    </div>
+
+    <div id="view"></div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
 </html>

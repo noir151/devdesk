@@ -126,7 +126,6 @@ async function renderTickets() {
     </div>
   `);
 
-  // Restore filters
   root.querySelector("#t_q").value = searchState.q || "";
   root.querySelector("#t_status").value = searchState.status || "";
   root.querySelector("#t_cat_filter").value = searchState.category || "";
